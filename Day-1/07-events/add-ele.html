@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add H1 Example</title>
+</head>
+<body>
+
+  <button onclick="addHeading()">Add H1 Tag</button>
+
+  <script>
+    function addHeading() {
+      // Create a new h1 element
+      const heading = document.createElement("h1");
+      // Set its text content
+      heading.textContent = "Hello, this is a new H1!";
+      // Add it to the body
+      document.body.appendChild(heading);
+    }
+  </script>
+
+</body>
+</html>

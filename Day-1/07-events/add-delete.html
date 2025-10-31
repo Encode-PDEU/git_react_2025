@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add, Change Color & Delete Element</title>
+</head>
+<body bgcolor="pink">
+
+  <h2>Demo: Add, Change Color, and Delete an Element</h2>
+
+  <button onclick="addHeading()">Add H1</button>
+  <button onclick="changeColor()">Change Color</button>
+  <button onclick="deleteHeading()">Delete H1</button>
+
+  <script>
+    let heading; // variable to store our h1
+
+    function addHeading() {
+      if (!heading) { // only add if not already present
+        heading = document.createElement("h1");
+        heading.textContent = "Hello! I am a new H1 tag!";
+        document.body.appendChild(heading);
+      }
+    }
+
+    function changeColor() {
+      if (heading) {
+        const colors = ["red", "green", "blue", "purple", "orange"];
+        const random = Math.floor(Math.random() * colors.length);
+        heading.style.color = colors[random];
+      } else {
+        alert("Please add the H1 first!");
+      }
+    }
+
+    function deleteHeading() {
+      if (heading) {
+        heading.remove();
+        heading = null;
+      } else {
+        alert("No H1 to delete!");
+      }
+    }
+  </script>
+
+</body>
+</html>

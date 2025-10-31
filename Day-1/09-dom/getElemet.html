@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript DOM + Events Demo</title>
+ 
+</head>
+<body>
+
+  <h2> JavaScript DOM + Events Demo</h2>
+
+  <input type="text" id="nameInput" placeholder="Enter your name">
+  <button id="showBtn">Show Greeting</button>
+  <button id="clearBtn">Clear</button>
+
+  <div id="output"> Waiting for your input...</div>
+
+  <script>
+    // -------------------------------------------
+    // DOM ELEMENT SELECTION
+    // -------------------------------------------
+    const nameInput = document.getElementById("nameInput");
+    const showBtn = document.getElementById("showBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const output = document.getElementById("output");
+
+    // -------------------------------------------
+    // EVENT HANDLERS
+    // -------------------------------------------
+
+    // When "Show Greeting" button is clicked
+    showBtn.addEventListener("click", () => {
+      const name = nameInput.value.trim();
+      if (name) {
+        output.innerHTML = ` Hello, <b>${name}</b>! Welcome to the DOM demo!`;
+        output.style.backgroundColor = "#e6ffe6";
+      } else {
+        output.innerHTML = " Please enter a name first!";
+        output.style.backgroundColor = "#ffe6e6";
+      }
+    });
+
+    // When "Clear" button is clicked
+    clearBtn.addEventListener("click", () => {
+      nameInput.value = "";
+      output.innerHTML = " Waiting for your input...";
+      output.style.backgroundColor = "white";
+    });
+
+    // When user types in input (real-time event)
+    nameInput.addEventListener("keyup", () => {
+      output.innerHTML = ` You are typing: <b>${nameInput.value}</b>`;
+    });
+  </script>
+
+</body>
+</html>

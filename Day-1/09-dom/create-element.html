@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple DOM Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #container {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2> Simple DOM Example: Add Element</h2>
+  <button id="addBtn">Add New Paragraph</button>
+
+  <div id="container"></div>
+
+  <script>
+    // Select the container and button
+    const addBtn = document.getElementById("addBtn");
+    const container = document.getElementById("container");
+
+    // Add event listener
+    addBtn.addEventListener("click", function() {
+      // Create a new paragraph element
+      const newPara = document.createElement("p");
+      newPara.textContent = " This is a new paragraph added to the DOM!";
+      newPara.style.color = "green";
+
+      // Append it to the container
+      container.appendChild(newPara);
+    });
+  </script>
+
+</body>
+</html>

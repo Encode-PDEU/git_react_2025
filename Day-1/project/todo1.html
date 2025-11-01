@@ -6,34 +6,53 @@
   <meta name="viewport" content="width=device-width">
   <title>replit</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-  <h1>Todo list</h1>
-  <div id="todos">
-    <div id="todo-1">
-      <h4>1. Take class</h4>
-      <button onclick="deleteTodo(1)">delete</button>
+<body class="bg-gray-100 min-h-screen flex items-start justify-center py-12">
+  <main class="w-full max-w-md bg-gray-50 rounded-lg shadow p-6">
+    <h1 class="text-2xl font-semibold text-gray-800">Todo list</h1>
+    <div id="todos" class="mt-4 space-y-3">
+      <div id="todo-1" class="flex items-center justify-between bg-white p-3 rounded shadow">
+        <h4 class="text-gray-800">1. Take class</h4>
+        <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600" onclick="deleteTodo(1)">Delete</button>
+      </div>
+      <div id="todo-2" class="flex items-center justify-between bg-white p-3 rounded shadow">
+        <h4 class="text-gray-800">2. Go out to eat</h4>
+        <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600" onclick="deleteTodo(2)">Delete</button>
+      </div>
     </div>
-    <div id="todo-2">
-      <h4>2. Go out to eat</h4>
-      <button onclick="deleteTodo(2)">delete</button>
+
+    <div class="mt-4 flex gap-2">
+      <input id="inp" type="text" class="flex-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      <button class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700" onclick="addTodo()">Add Todo</button>
     </div>
-  </div>
-  <div>
-    <input id="inp" type="text"></input>
-    <button onclick="addTodo()">Add Todo</button>
-  </div>
+  </main>
 </body>
 
 <script>
   let currentIndex = 3;
   function addTodo() {
     const inputEl = document.getElementById("inp");
-    const textNode = document.createElement("div");
-    textNode.innerHTML = "<div id='todo-" + currentIndex + "'><h4>" + inputEl.value + '</h4><button onclick="deleteTodo(' + currentIndex + ') ">Delete</button>';
     const parentEl = document.getElementById("todos");
-    parentEl.appendChild(textNode);
+
+    const wrapper = document.createElement('div');
+    wrapper.setAttribute('id', 'todo-' + currentIndex);
+    wrapper.className = 'flex items-center justify-between bg-white p-3 rounded shadow';
+
+    const h4 = document.createElement('h4');
+    h4.className = 'text-gray-800';
+    h4.textContent = currentIndex + '. ' + inputEl.value;
+
+    const btn = document.createElement('button');
+    btn.className = 'px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600';
+    btn.textContent = 'Delete';
+    btn.setAttribute('onclick', 'deleteTodo(' + currentIndex + ')');
+
+    wrapper.appendChild(h4);
+    wrapper.appendChild(btn);
+    parentEl.appendChild(wrapper);
 
     currentIndex = currentIndex + 1;
   }

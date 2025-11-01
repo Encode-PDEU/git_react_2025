@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Todo List (Tailwind + jQuery)</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-start justify-center py-12">
+  <main class="w-full max-w-md bg-gray-50 rounded-lg shadow p-6">
+    <h1 class="text-2xl font-semibold text-gray-800">Todo list</h1>
+
+    <div id="todos" class="mt-4 space-y-3">
+      <!-- Todos will be appended here -->
+    </div>
+
+    <div class="mt-4 flex gap-2">
+      <input id="inp" type="text" placeholder="Add a todo" class="flex-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="New todo">
+      <button id="addBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Add</button>
+    </div>
+
+    <p class="mt-3 text-sm text-gray-500">Tip: press Enter to add</p>
+  </main>
+
+  <script>
+    // Use jQuery for DOM manipulation.
+    $(function() {
+      let currentIndex = 1;
+
+      function renderTodo(index, text) {
+        const $todo = $(
+          '<div>' +
+            '<h4 class="text-gray-800"></h4>' +
+            '<div class="flex items-center gap-2">' +
+              '<button class="doneBtn px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Done</button>' +
+              '<button class="deleteBtn px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>' +
+            '</div>' +
+          '</div>'
+        );
+
+        $todo.attr('id', 'todo-' + index);
+        $todo.addClass('flex items-center justify-between bg-white p-3 rounded shadow');
+        $todo.find('h4').text(index + '. ' + text);
+        $todo.find('.deleteBtn').attr('data-index', index);
+        $todo.find('.doneBtn').attr('data-index', index);
+
+        return $todo;
+      }
+
+      function addTodo() {
+        const $input = $('#inp');
+        const todoText = $input.val().trim();
+        if (todoText === '') {
+          alert('Please enter a todo item.');
+          return;
+        }
+
+        const $newTodo = renderTodo(currentIndex, todoText);
+        $('#todos').append($newTodo);
+        currentIndex++;
+        $input.val('');
+        $input.focus();
+      }
+
+      // Add button click
+      $('#addBtn').on('click', function() {
+        addTodo();
+      });
+
+      // Enter key to add
+      $('#inp').on('keypress', function(e) {
+        if (e.which === 13) { // Enter
+          addTodo();
+        }
+      });
+
+      // Delegate delete clicks
+      $('#todos').on('click', '.deleteBtn', function() {
+        const idx = $(this).attr('data-index');
+        $('#todo-' + idx).remove();
+      });
+
+      // Delegate done clicks - toggle completed state (Done <-> Undo)
+      $('#todos').on('click', '.doneBtn', function() {
+        const idx = $(this).attr('data-index');
+        const $btn = $(this);
+        const $item = $('#todo-' + idx);
+        const $heading = $item.find('h4');
+
+        if (!$item.hasClass('completed')) {
+          // mark completed
+          $item.addClass('completed opacity-70');
+          $heading.addClass('line-through text-gray-400');
+          // change button to look like Undo (gray) but still clickable
+          $btn.removeClass('bg-green-500 hover:bg-green-600')
+            .addClass('bg-gray-300 text-gray-700')
+            .text('Undo');
+        } else {
+          // undo completed
+          $item.removeClass('completed opacity-70');
+          $heading.removeClass('line-through text-gray-400');
+          // restore Done button appearance
+          $btn.removeClass('bg-gray-300 text-gray-700')
+            .addClass('bg-green-500 hover:bg-green-600')
+            .text('Done');
+        }
+      });
+
+      // Optional: Add a couple of sample todos to demonstrate
+      $('#todos').append(renderTodo(currentIndex++, 'Take class'));
+      $('#todos').append(renderTodo(currentIndex++, 'Go out to eat'));
+    });
+  </script>
+</body>
+</html>
